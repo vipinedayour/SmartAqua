@@ -12,7 +12,7 @@ class Settings extends StatefulWidget {
 
 class _SettingsState extends State<Settings> {
   TextEditingController textController = TextEditingController();
-  DatabaseReference led = FirebaseDatabase.instance.ref();
+  DatabaseReference database = FirebaseDatabase.instance.ref();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,7 +33,7 @@ class _SettingsState extends State<Settings> {
               onEditingComplete: () {
                 print(textController.text);
                 int delay = int.parse(textController.text);
-                led.child('devices').update({
+                database.child('devices').update({
                   'servo_delay': delay,
                 });
               },

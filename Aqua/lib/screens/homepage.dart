@@ -1,9 +1,7 @@
 import 'package:aquarium/utilities/constants.dart';
 import 'package:aquarium/widgets/clock.dart';
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
-import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -11,9 +9,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  DatabaseReference led = FirebaseDatabase.instance.ref();
+  DatabaseReference database = FirebaseDatabase.instance.ref();
   String _scheduledTime = "";
-  bool led_status = false;
   bool feed = false;
 
   void _showTimePicker() {
@@ -26,7 +23,7 @@ class _HomePageState extends State<HomePage> {
           } else {
             _scheduledTime = time;
           }
-          led.child('devices').update({
+          database.child('devices').update({
             'scheduled_time': _scheduledTime,
           });
         });
@@ -38,7 +35,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
 
-    led.child('devices').onValue.listen((DatabaseEvent event) {
+    database.child('devices').onValue.listen((DatabaseEvent event) {
       final data = event.snapshot.value;
 
       if (mounted) {
@@ -59,8 +56,8 @@ class _HomePageState extends State<HomePage> {
           Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
             TextButton(
               onPressed: () async {
-                led.child('devices').update({
-                  'led_status': true,
+                database.child('devices').update({
+                  'servo_status': true,
                 });
                 await Future.delayed(Duration(milliseconds: 1000));
                 setState(() => feed = true);

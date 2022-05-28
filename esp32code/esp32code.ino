@@ -40,20 +40,22 @@ FirebaseData fbdo;
 FirebaseAuth auth;
 FirebaseConfig config;
 
-static const int servoPin = 13; //printed G14 on the board
+static const int servoPin = 13;
 Servo_ESP32 servo1;
-bool motor_status;
+bool servo_status;
 
 
 int LED_BUILTIN = 2;
 float temperature;
 String scheduled_time;
+String rgb;
 char current_time[12];
 const char* ntpServer = "pool.ntp.org";
 const long  gmtOffset_sec = 19800;
 const int   daylightOffset_sec = 0;
 bool timestatus = true;
 int servo_delay=500;
+
 void setup()
 {
   pinMode (LED_BUILTIN, OUTPUT);
@@ -96,31 +98,37 @@ void setup()
   configTime(gmtOffset_sec, daylightOffset_sec, ntpServer);
   printLocalTime();
 
-
 }
 
 void loop()
 {
- Firebase.RTDB.getBool(&fbdo,F("/devices/led_status"),&motor_status);
-// Firebase.RTDB.getInt(&fbdo,F("/devices/servo_delay"),&servo_delay);
-  if(motor_status==true){
+ Firebase.RTDB.getBool(&fbdo,F("/devices/servo_status"),&servo_status);
+ Firebase.RTDB.getInt(&fbdo,F("/devices/servo_delay"),&servo_delay);
+  if(servo_status==true){
     Serial.println("Feeded now");
     digitalWrite(LED_BUILTIN, HIGH);
-    spinservo();
-    motor_status=false;
-    Firebase.RTDB.setBool(&fbdo, "devices/led_status", motor_status);
+    spinservo(servo_delay);
+    servo_status=false;
+    Firebase.RTDB.setBool(&fbdo, "devices/servo_status", servo_status);
     digitalWrite(LED_BUILTIN, LOW);
     }
-
-     Firebase.RTDB.getString(&fbdo, F("/devices/scheduled_time"),&scheduled_time);
+    Firebase.RTDB.getString(&fbdo, F("/devices/scheduled_time"),&scheduled_time);
  Serial.print("scheduled_time : ");
  Serial.println(scheduled_time);
+
+ Firebase.RTDB.getString(&fbdo, F("/devices/rgb"),&rgb);
+ Serial.print("RGB : ");
+ Serial.println(rgb);
  
     printLocalTime();
  
   temperature =(temprature_sens_read() - 32) / 1.8;
   Firebase.RTDB.setFloat(&fbdo, "devices/temperature", temperature);
+ 
 }
+
+
+
 
 
 
@@ -140,9 +148,9 @@ void printLocalTime(){
     if(timestatus==1){
     Serial.println("Feeded on time");
     digitalWrite(LED_BUILTIN, HIGH);
-    spinservo();
-    motor_status=false;
-    Firebase.RTDB.setBool(&fbdo, "devices/led_status", motor_status);
+    spinservo(servo_delay);
+    servo_status=false;
+    Firebase.RTDB.setBool(&fbdo, "devices/servo_status", servo_status);
     digitalWrite(LED_BUILTIN, LOW);
     timestatus=0;
   }
@@ -157,10 +165,12 @@ void printLocalTime(){
 
 
 
-void spinservo(){
+void spinservo(int sdelay){
     servo1.attach(servoPin);
     servo1.write(50);
-    delay(500);
+    delay(sdelay);
     servo1.detach();
-    motor_status=false;
+    servo_status=false;
   }
+
+  

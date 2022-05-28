@@ -49,6 +49,7 @@ dependencies:
   curved_navigation_bar: ^1.0.3
 
   provider: ^6.0.2
+  flutter_circle_color_picker: ^0.3.0
 
 dev_dependencies:
   flutter_test:

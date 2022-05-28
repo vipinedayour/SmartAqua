@@ -1,4 +1,6 @@
 import 'package:aquarium/screens/analytics.dart';
+import 'package:aquarium/screens/colorpicker.dart';
+import 'package:aquarium/screens/game.dart';
 import 'package:aquarium/screens/homepage.dart';
 import 'package:aquarium/screens/settings.dart';
 import 'package:aquarium/utilities/constants.dart';
@@ -19,7 +21,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int index = 0;
-  final screens = [HomePage(), Analytics(), Settings()];
+  final screens = [HomePage(), Home(), ColorPicker()];
   final items = [
     Icon(Icons.home),
     Icon(Icons.data_object),
@@ -33,6 +35,7 @@ class _MyAppState extends State<MyApp> {
         scaffoldBackgroundColor: Color(0xFFEBF3FE),
       ),
       home: Scaffold(
+        extendBody: true,
         bottomNavigationBar: Theme(
           data: Theme.of(context)
               .copyWith(iconTheme: IconThemeData(color: kmaincolor)),
@@ -51,7 +54,10 @@ class _MyAppState extends State<MyApp> {
             animationDuration: Duration(milliseconds: 400),
           ),
         ),
-        body: screens[index],
+        body: IndexedStack(
+          index: index,
+          children: screens,
+        ),
       ),
     );
   }
