@@ -1,8 +1,6 @@
-import 'package:aquarium/screens/analytics.dart';
 import 'package:aquarium/screens/colorpicker.dart';
-import 'package:aquarium/screens/game.dart';
+import 'package:aquarium/screens/analytics.dart';
 import 'package:aquarium/screens/homepage.dart';
-import 'package:aquarium/screens/settings.dart';
 import 'package:aquarium/utilities/constants.dart';
 import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,7 +19,7 @@ class MyApp extends StatefulWidget {
 
 class _MyAppState extends State<MyApp> {
   int index = 0;
-  final screens = [HomePage(), Home(), ColorPicker()];
+  final screens = [HomePage(), Analytics(), ColorPicker()];
   final items = [
     Icon(Icons.home),
     Icon(Icons.data_object),
@@ -33,6 +31,7 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         scaffoldBackgroundColor: Color(0xFFEBF3FE),
+        primaryColor: kmaincolor,
       ),
       home: Scaffold(
         extendBody: true,

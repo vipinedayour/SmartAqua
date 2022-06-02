@@ -1,16 +1,10 @@
-#ifdef __cplusplus
-extern "C" {
-#endif
-uint8_t temprature_sens_read();
-#ifdef __cplusplus
-}
-#endif
-uint8_t temprature_sens_read();
-
 #include <WiFi.h>
 #include "time.h"
 #include <FirebaseESP32.h>
 #include <Servo_ESP32.h>
+#include <FastLED.h>
+#define NUM_LEDS  60
+#define LED_PIN  12
 
 // Provide the token generation process info.
 #include <addons/TokenHelper.h>
@@ -33,7 +27,7 @@ uint8_t temprature_sens_read();
 /* 4. Define the user Email and password that alreadey registerd or added in your project */
 #define USER_EMAIL "notsharks@gmail.com"
 #define USER_PASSWORD "wearesharks"
-
+#define PIN_ANALOG_IN   34
 // Define Firebase Data object
 FirebaseData fbdo;
 
@@ -55,9 +49,14 @@ const long  gmtOffset_sec = 19800;
 const int   daylightOffset_sec = 0;
 bool timestatus = true;
 int servo_delay=500;
+CRGB leds[NUM_LEDS];
+String color="120,25,21";
 
+double tempC;
 void setup()
 {
+  FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
+  FastLED.setBrightness(50);
   pinMode (LED_BUILTIN, OUTPUT);
   Serial.begin(115200);
 
@@ -120,19 +119,20 @@ void loop()
  Serial.print("RGB : ");
  Serial.println(rgb);
  
-    printLocalTime();
+ printLocalTime();
  
-  temperature =(temprature_sens_read() - 32) / 1.8;
-  Firebase.RTDB.setFloat(&fbdo, "devices/temperature", temperature);
- 
+measuretemperature();
+ Firebase.RTDB.setFloat(&fbdo, "devices/temperature", tempC);
+
+  Firebase.RTDB.getString(&fbdo, F("/devices/rgb"),&color);
+  int r=getValue(color,',',0).toInt();
+  int g=getValue(color,',',1).toInt();
+  int b=getValue(color,',',2).toInt();
+    for (int i = 0; i < NUM_LEDS; i++) {
+        leds[i] = CRGB(r,g,b);
+  }
+  FastLED.show();
 }
-
-
-
-
-
-
-
 
 void printLocalTime(){
   struct tm timeinfo;
@@ -163,8 +163,6 @@ void printLocalTime(){
 }
 
 
-
-
 void spinservo(int sdelay){
     servo1.attach(servoPin);
     servo1.write(50);
@@ -173,4 +171,30 @@ void spinservo(int sdelay){
     servo_status=false;
   }
 
+  void measuretemperature(){
+  int adcValue = analogRead(PIN_ANALOG_IN);                       //read ADC pin
+  double voltage = (float)adcValue / 4095.0 * 3.3;                // calculate voltage
+  double Rt = 10 * voltage / (3.3 - voltage);                     //calculate resistance value of thermistor
+  double tempK = 1 / (1 / (273.15 + 25) + log(Rt / 10) / 3950.0); //calculate temperature (Kelvin)
+  tempC = tempK - 273.15; 
   
+  
+    
+    }
+
+    String getValue(String data, char separator, int index)
+{
+  int found = 0;
+  int strIndex[] = {0, -1};
+  int maxIndex = data.length()-1;
+
+  for(int i=0; i<=maxIndex && found<=index; i++){
+    if(data.charAt(i)==separator || i==maxIndex){
+        found++;
+        strIndex[0] = strIndex[1]+1;
+        strIndex[1] = (i == maxIndex) ? i+1 : i;
+    }
+  }
+
+  return found>index ? data.substring(strIndex[0], strIndex[1]) : "";
+}
