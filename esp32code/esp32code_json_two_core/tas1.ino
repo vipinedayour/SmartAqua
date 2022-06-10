@@ -1,7 +1,11 @@
 void Task1code( void * pvParameters ){
   for(;;){
 
-    light();  
+getData();
+feedNow();
+checkTime();
+measuretemperature();
+Serial.println(""); 
 
   }
 }

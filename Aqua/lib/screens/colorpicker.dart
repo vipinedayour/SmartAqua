@@ -31,12 +31,17 @@ class _ColorPickerState extends State<ColorPicker> {
     {
       'value': 'rainbow',
       'label': 'Rainbow',
-      'icon': Icon(Icons.grade),
+      'icon': Icon(Icons.architecture),
     },
     {
       'value': 'sinelon',
       'label': 'Sinelon',
       'icon': Icon(Icons.grade),
+    },
+    {
+      'value': 'pacifica',
+      'label': 'Pacifica',
+      'icon': Icon(Icons.water),
     },
   ];
 
@@ -45,28 +50,29 @@ class _ColorPickerState extends State<ColorPicker> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+        child: ListView(
           children: [
-            CircleColorPicker(
-              strokeWidth: 8,
-              controller: _controller,
-              onChanged: (color) {
-                setState(() => _currentColor = color);
-                print('RGB(${color.red},${color.green},${color.blue})');
-                led.child('devices').update({
-                  'rgb': '${color.red},${color.green},${color.blue}',
-                });
-              },
-              colorCodeBuilder: (context, color) {
-                return Text(
-                  'RGB(${color.red},${color.green},${color.blue})',
-                  style: TextStyle(
-                      fontSize: 20,
-                      color: Colors.black,
-                      fontWeight: FontWeight.bold),
-                );
-              },
+            Center(
+              child: CircleColorPicker(
+                strokeWidth: 8,
+                controller: _controller,
+                onChanged: (color) {
+                  setState(() => _currentColor = color);
+                  print('RGB(${color.red},${color.green},${color.blue})');
+                  led.child('devices').update({
+                    'rgb': '${color.red},${color.green},${color.blue}',
+                  });
+                },
+                colorCodeBuilder: (context, color) {
+                  return Text(
+                    'RGB(${color.red},${color.green},${color.blue})',
+                    style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold),
+                  );
+                },
+              ),
             ),
             Padding(
               padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),

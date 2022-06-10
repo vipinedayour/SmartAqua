@@ -57,7 +57,8 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () async {
                 database.child('devices').update({
-                  'servo_status': true,
+                  'servo_status': t
+                  rue,
                 });
                 await Future.delayed(Duration(milliseconds: 1000));
                 setState(() => feed = true);

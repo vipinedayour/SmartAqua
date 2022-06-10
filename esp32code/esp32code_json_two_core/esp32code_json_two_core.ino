@@ -6,6 +6,9 @@
 #include <FastLED.h>
 #define NUM_LEDS  60
 #define LED_PIN  12
+static const int servoPin = 13;
+#define PIN_ANALOG_IN   34
+
 
 // Provide the token generation process info.
 #include <addons/TokenHelper.h>
@@ -28,7 +31,7 @@
 /* 4. Define the user Email and password that alreadey registerd or added in your project */
 #define USER_EMAIL "notsharks@gmail.com"
 #define USER_PASSWORD "wearesharks"
-#define PIN_ANALOG_IN   34
+
 // Define Firebase Data object
 FirebaseData fbdo;
 FirebaseAuth auth;
@@ -36,7 +39,7 @@ FirebaseConfig config;
 CRGB leds[NUM_LEDS];
 Servo_ESP32 servo1;
 
-static const int servoPin = 13;
+
 int LED_BUILTIN = 2;
 char current_time[12];
 const char* ntpServer = "pool.ntp.org";
