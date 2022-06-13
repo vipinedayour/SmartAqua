@@ -14,7 +14,19 @@ class _HomePageState extends State<HomePage> {
   bool feed = false;
 
   void _showTimePicker() {
-    showTimePicker(context: context, initialTime: TimeOfDay.now()).then(
+    showTimePicker(
+      context: context,
+      initialTime: TimeOfDay.now(),
+      builder: (context, child) {
+        return Theme(
+          data: ThemeData.light().copyWith(
+              colorScheme: ColorScheme.dark(
+            primary: kmaincolor,
+          )),
+          child: child!,
+        );
+      },
+    ).then(
       (value) {
         setState(() {
           String time = value!.format(context).toString();
@@ -57,8 +69,7 @@ class _HomePageState extends State<HomePage> {
             TextButton(
               onPressed: () async {
                 database.child('devices').update({
-                  'servo_status': t
-                  rue,
+                  'servo_status': true,
                 });
                 await Future.delayed(Duration(milliseconds: 1000));
                 setState(() => feed = true);
