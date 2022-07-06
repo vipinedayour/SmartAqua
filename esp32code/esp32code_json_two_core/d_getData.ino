@@ -1,7 +1,7 @@
 void getData(){
 Firebase.get(fbdo, F("/"));
 const char * input = fbdo.to<const char *>();
-  StaticJsonDocument<256> doc;
+  StaticJsonDocument<512> doc;
 
 DeserializationError error = deserializeJson(doc, input);
 
@@ -18,6 +18,7 @@ scheduled_time = devices["scheduled_time"].as<String>(); // "09:06 PM"
 servo_delay = devices["servo_delay"]; // 700
 servo_status = devices["servo_status"]; // false
 led_animation= devices["led_animation"].as<String>();
+refill = devices["refill"]; // false
 
 //temperature = devices["temperature"]; // 33.99995
 

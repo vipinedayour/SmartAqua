@@ -15,6 +15,7 @@ class Analytics extends StatefulWidget {
 class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
   DatabaseReference database = FirebaseDatabase.instance.ref();
   dynamic temperature = 25;
+  dynamic tds = 100;
   late AnimationController firstController;
   late Animation<double> firstAnimation;
 
@@ -36,6 +37,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
       if (mounted) {
         setState(() {
           temperature = (data as Map)['temperature'];
+          tds = data['tds'];
         });
       }
     });
@@ -156,54 +158,59 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                // Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                //   CircularPercentIndicator(
-                //     radius: 60.0,
-                //     backgroundColor: Color.fromARGB(255, 42, 56, 95),
-                //     progressColor: Color(0xff24c7cb),
-                //     animation: false,
-                //     animationDuration: 1200,
-                //     lineWidth: 10.0,
-                //     percent: temperature.round() / 100,
-                //     center: new Text(
-                //       "220\n PPM",
-                //       style: new TextStyle(
-                //           fontWeight: FontWeight.bold, fontSize: 30),
-                //     ),
-                //   ),
-                CircularPercentIndicator(
-                  radius: 60.0,
-                  animation: false,
-                  backgroundColor: Color.fromARGB(255, 167, 237, 239),
-                  progressColor: kmaincolor,
-                  animationDuration: 1200,
-                  lineWidth: 15,
-                  percent: 0.4,
-                  //  temperature.round() / 100
-                  circularStrokeCap: CircularStrokeCap.round,
-                  center: new Text(
-                    temperature.round().toString() + "°C",
-                    style: new TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 30),
-                  ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    CircularPercentIndicator(
+                      radius: 60.0,
+                      animation: false,
+                      backgroundColor: Color.fromARGB(255, 167, 237, 239),
+                      progressColor: kmaincolor,
+                      animationDuration: 1200,
+                      lineWidth: 15,
+                      percent: 0.4,
+                      //  temperature.round() / 100
+                      circularStrokeCap: CircularStrokeCap.round,
+                      center: new Text(
+                        temperature.round().toString() + "°C",
+                        style: new TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    ),
+                    CircularPercentIndicator(
+                      radius: 60.0,
+                      animation: false,
+                      backgroundColor: Color.fromARGB(255, 167, 237, 239),
+                      progressColor: kmaincolor,
+                      animationDuration: 1200,
+                      lineWidth: 15,
+                      percent: 0.4,
+                      //  temperature.round() / 100
+                      circularStrokeCap: CircularStrokeCap.round,
+                      center: new Text(
+                        tds.round().toString() + "\nPPM",
+                        style: new TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 25),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  height: 100,
+                ),
+                TextButton(
+                  onPressed: () {
+                    database.child('devices').update({
+                      'refill': true,
+                    });
+                  },
+                  child: Text("CLEANUP"),
+                  style: TextButton.styleFrom(
+                      primary: Colors.white,
+                      backgroundColor: kmaincolor,
+                      textStyle: TextStyle(fontSize: 20)),
                 )
               ],
-              //   ),
-              //   CircularPercentIndicator(
-              //     radius: 80.0,
-              //     animation: false,
-              //     backgroundColor: Color.fromARGB(255, 59, 152, 154),
-              //     progressColor: Color.fromARGB(255, 4, 15, 46),
-              //     animationDuration: 1200,
-              //     lineWidth: 15.0,
-              //     percent: 0.4,
-              //     center: new Text(
-              //       "Good",
-              //       style:
-              //           new TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
-              //     ),
-              //   ),
-              // ],
             ),
           ),
         ],

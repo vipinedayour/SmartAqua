@@ -1,6 +1,4 @@
 void loop()
 {
 light(); 
-
-
 }

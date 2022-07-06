@@ -1,13 +1,32 @@
 #include <WiFi.h>
+#include <WiFiManager.h> 
 #include "time.h"
 #include <FirebaseESP32.h>
 #include <ArduinoJson.h>
 #include <Servo_ESP32.h>
 #include <FastLED.h>
+#include <OneWire.h>
+#include <DallasTemperature.h>
 #define NUM_LEDS  60
 #define LED_PIN  12
 static const int servoPin = 13;
 #define PIN_ANALOG_IN   34
+const int oneWireBus = 25; // GPIO where the DS18B20 is connected to
+ 
+#define TdsSensorPin 35
+#define VREF 3.3      // analog reference voltage(Volt) of the ADC
+#define SCOUNT  30           // sum of sample point 
+int analogBuffer[SCOUNT];    // store the analog value in the array, read from ADC
+int analogBufferTemp[SCOUNT];
+int analogBufferIndex = 0;
+int copyIndex = 0;
+float averageVoltage = 0;
+float tdsValue = 0;
+float temperature = 0;
+OneWire oneWire(oneWireBus);    // Setup a oneWire instance to communicate with any OneWire devices
+ 
+DallasTemperature sensors(&oneWire);    // Pass our oneWire reference to Dallas Temperature sensor
+ 
 
 
 // Provide the token generation process info.
@@ -17,8 +36,8 @@ static const int servoPin = 13;
 #include <addons/RTDBHelper.h>
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "EDAYOURWIFI"
-#define WIFI_PASSWORD "Edayour8427"
+#define WIFI_SSID "VIP"
+#define WIFI_PASSWORD "789456123"
 
 // For the following credentials, see examples/Authentications/SignInAsUser/EmailPassword/EmailPassword.ino
 
@@ -53,4 +72,5 @@ String led_animation;
 String scheduled_time ; 
 int servo_delay; 
 bool servo_status;
+bool refill;
 TaskHandle_t Task1;
