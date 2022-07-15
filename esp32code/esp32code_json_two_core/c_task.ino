@@ -5,7 +5,8 @@ feedNow();
 checkTime();
 measuretemperature();
 get_temperature_tds();
+
 Serial.println(""); 
-cleanup();
+
   }
 }

@@ -1,4 +1,6 @@
 void loop()
 {
 light(); 
+cleanup();
+
 }

@@ -1,5 +1,12 @@
 void setup()
 {
+  pinMode(trigPin, OUTPUT); // Sets the trigPin as an Output
+  pinMode(echoPin, INPUT); // Sets the echoPin as an Input
+  pinMode(relay1, OUTPUT);
+  pinMode(relay2, OUTPUT);
+
+      digitalWrite(relay1,HIGH);
+    digitalWrite(relay2,HIGH);
   FastLED.addLeds<WS2812B, LED_PIN, GRB>(leds, NUM_LEDS);
   FastLED.setBrightness(120);
   pinMode (LED_BUILTIN, OUTPUT);
