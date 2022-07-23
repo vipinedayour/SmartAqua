@@ -164,7 +164,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                     CircularPercentIndicator(
                       radius: 60.0,
                       animation: false,
-                      backgroundColor: Color.fromARGB(255, 167, 237, 239),
+                      backgroundColor: ksecondarycolor,
                       progressColor: kmaincolor,
                       animationDuration: 1200,
                       lineWidth: 15,
@@ -180,7 +180,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                     CircularPercentIndicator(
                       radius: 60.0,
                       animation: false,
-                      backgroundColor: Color.fromARGB(255, 167, 237, 239),
+                      backgroundColor: ksecondarycolor,
                       progressColor: kmaincolor,
                       animationDuration: 1200,
                       lineWidth: 15,
@@ -207,7 +207,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                   child: Text("CLEANUP"),
                   style: TextButton.styleFrom(
                       primary: Colors.white,
-                      backgroundColor: kmaincolor,
+                      backgroundColor: ksecondarycolor,
                       textStyle: TextStyle(fontSize: 20)),
                 )
               ],
