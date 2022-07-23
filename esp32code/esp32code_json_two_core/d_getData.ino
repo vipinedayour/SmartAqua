@@ -19,6 +19,8 @@ servo_delay = devices["servo_delay"]; // 700
 servo_status = devices["servo_status"]; // false
 led_animation= devices["led_animation"].as<String>();
 refill = devices["refill"]; // false
+top_level=devices["top_level"];
+bottom_level=devices["bottom_level"];
 if(bringitdown){
   refill=false;
   Firebase.RTDB.setBool(&fbdo, "devices/refill", refill);

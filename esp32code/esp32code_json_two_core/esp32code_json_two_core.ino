@@ -70,6 +70,8 @@ String led_animation;
 String scheduled_time ; 
 int servo_delay; 
 bool servo_status;
+int top_level;
+int bottom_level;
 TaskHandle_t Task1;
 
 const int trigPin = 15;

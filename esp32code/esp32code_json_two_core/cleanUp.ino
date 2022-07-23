@@ -4,14 +4,14 @@ void cleanup(){
 refill=false;
 bringitdown=true;
     filtered_distance();
-      while(dist<8){
+      while(dist<bottom_level){
     filtered_distance();
     digitalWrite(relay1,LOW);
     digitalWrite(relay2,HIGH);
     Serial.println("while1");
     }
     
-  while(dist>3){
+  while(dist>top_level){
     filtered_distance();
     
     digitalWrite(relay2,LOW);
