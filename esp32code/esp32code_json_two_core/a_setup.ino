@@ -25,7 +25,7 @@ void setup()
         bool res;
     // res = wm.autoConnect(); // auto generated AP name from chipid
     // res = wm.autoConnect("AutoConnectAP"); // anonymous ap
-    res = wm.autoConnect("AutoConnectAP","password"); // password protected ap
+    res = wm.autoConnect("Smart Aqua","aquarium"); // password protected ap
 
     if(!res) {
         Serial.println("Failed to connect");
@@ -79,5 +79,6 @@ Serial.printf("Firebase Client v%s\n\n", FIREBASE_CLIENT_VERSION);
              tskIDLE_PRIORITY,         /* priority of the task */
              &Task1,    /* Task handle to keep track of created task */
              0);        /* pin task to core 0 */
+      
 
 }

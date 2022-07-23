@@ -1,7 +1,7 @@
 void getData(){
 Firebase.get(fbdo, F("/"));
 const char * input = fbdo.to<const char *>();
-  StaticJsonDocument<256> doc;
+  StaticJsonDocument<512> doc;
 
 DeserializationError error = deserializeJson(doc, input);
 

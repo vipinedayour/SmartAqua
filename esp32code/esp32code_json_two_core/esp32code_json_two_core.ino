@@ -36,8 +36,6 @@ DallasTemperature sensors(&oneWire);    // Pass our oneWire reference to Dallas 
 #include <addons/RTDBHelper.h>
 
 /* 1. Define the WiFi credentials */
-#define WIFI_SSID "VIP"
-#define WIFI_PASSWORD "789456123"
 
 // For the following credentials, see examples/Authentications/SignInAsUser/EmailPassword/EmailPassword.ino
 
@@ -72,17 +70,17 @@ String led_animation;
 String scheduled_time ; 
 int servo_delay; 
 bool servo_status;
-bool refill;
-bool bringitdown=false;
 TaskHandle_t Task1;
+
 const int trigPin = 15;
 const int echoPin = 4;
 const int relay1 =26;
 const int relay2=27;
-//define sound speed in cm/uS
 #define SOUND_SPEED 0.034
-#define CM_TO_INCH 0.393701
-
 long duration;
+bool refill;
+bool bringitdown=false;
+float checkdist;
+float distance_cm;
+float filterArray[20]; // array to store data samples from sensor
 float dist;
-float distanceInch;

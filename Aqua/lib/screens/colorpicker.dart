@@ -11,7 +11,9 @@ class ColorPicker extends StatefulWidget {
 class _ColorPickerState extends State<ColorPicker> {
   DatabaseReference led = FirebaseDatabase.instance.ref();
 
-  TextEditingController textController = TextEditingController();
+  TextEditingController textControllerS = TextEditingController();
+  TextEditingController textControllerT = TextEditingController();
+  TextEditingController textControllerB = TextEditingController();
   Color _currentColor = Colors.blue;
   final _controller = CircleColorPickerController(
     initialColor: Colors.blue,
@@ -92,7 +94,7 @@ class _ColorPickerState extends State<ColorPicker> {
                 ),
               ),
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 10),
                 child: TextField(
                   onEditingComplete: () {
                     FocusScopeNode currentFocus = FocusScope.of(context);
@@ -100,19 +102,82 @@ class _ColorPickerState extends State<ColorPicker> {
                     if (!currentFocus.hasPrimaryFocus) {
                       currentFocus.unfocus();
                     }
-                    print(textController.text);
-                    int delay = int.tryParse(textController.text) ?? 700;
+                    print(textControllerS.text);
+                    int delay = int.tryParse(textControllerS.text) ?? 700;
 
                     led.child('devices').update({
                       'servo_delay': delay,
                     });
                   },
                   keyboardType: TextInputType.number,
-                  controller: textController,
+                  controller: textControllerS,
                   decoration: InputDecoration(
                     border: OutlineInputBorder(),
-                    hintText: 'servo delay',
+                    hintText: 'Servo Delay',
                   ),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 30, vertical: 5),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 5),
+                        child: TextField(
+                          onEditingComplete: () {
+                            FocusScopeNode currentFocus =
+                                FocusScope.of(context);
+
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                            print(textControllerT.text);
+                            int topLevel =
+                                int.tryParse(textControllerT.text) ?? 3;
+
+                            led.child('devices').update({
+                              'top_level': topLevel,
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                          controller: textControllerT,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Top Level',
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(left: 5),
+                        child: TextField(
+                          onEditingComplete: () {
+                            FocusScopeNode currentFocus =
+                                FocusScope.of(context);
+
+                            if (!currentFocus.hasPrimaryFocus) {
+                              currentFocus.unfocus();
+                            }
+                            print(textControllerB.text);
+                            int bottomLevel =
+                                int.tryParse(textControllerB.text) ?? 13;
+
+                            led.child('devices').update({
+                              'bottom_level': bottomLevel,
+                            });
+                          },
+                          keyboardType: TextInputType.number,
+                          controller: textControllerB,
+                          decoration: InputDecoration(
+                            border: OutlineInputBorder(),
+                            hintText: 'Bottom Level',
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
