@@ -23,8 +23,8 @@ class _ClockState extends State<Clock> {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 300,
-      height: 300,
+      width: 250,
+      height: 250,
       child: Stack(
         alignment: Alignment.center,
         children: [
@@ -53,8 +53,8 @@ class _ClockState extends State<Clock> {
                 ]),
           ),
           Container(
-            width: 200,
-            height: 200,
+            width: 175,
+            height: 175,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 gradient: LinearGradient(
