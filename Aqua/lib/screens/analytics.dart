@@ -7,7 +7,6 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:flutter_circle_color_picker/flutter_circle_color_picker.dart';
 import 'colorpicker.dart';
 
-
 class Analytics extends StatefulWidget {
   const Analytics({Key? key}) : super(key: key);
 
@@ -198,7 +197,6 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
       backgroundColor: Color.fromARGB(255, 214, 246, 255),
       body: Stack(
         children: [
-          
           CustomPaint(
             painter: MyPainter(
               firstAnimation.value,
@@ -212,10 +210,10 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
             ),
           ),
           Column(
-            
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Padding(
-                padding: EdgeInsets.only(top:60),
+                padding: EdgeInsets.only(top: 60),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
@@ -226,8 +224,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                       progressColor: kmaincolor,
                       animationDuration: 1200,
                       lineWidth: 15,
-                      percent: temperature/100,
-                      
+                      percent: temperature / 100,
                       circularStrokeCap: CircularStrokeCap.round,
                       center: new Text(
                         temperature.round().toString() + "°C",
@@ -235,7 +232,6 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                             fontWeight: FontWeight.bold, fontSize: 25),
                       ),
                     ),
-              
                     CircularPercentIndicator(
                       radius: 60.0,
                       animation: false,
@@ -243,8 +239,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                       progressColor: kmaincolor,
                       animationDuration: 1200,
                       lineWidth: 15,
-                      percent: tds/200,
-                      
+                      percent: tds / 200,
                       circularStrokeCap: CircularStrokeCap.round,
                       center: new Text(
                         tds.round().toString() + "\nPPM",
@@ -255,26 +250,22 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                   ],
                 ),
               ),
-              
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.only(left:40,right:40),
+                  padding: const EdgeInsets.only(left: 40, right: 40),
                   child: Column(
-                    
                     children: [
                       TextField(
-                        
                         onEditingComplete: () {
-                          FocusScopeNode currentFocus =
-                              FocusScope.of(context);
-                      
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+
                           if (!currentFocus.hasPrimaryFocus) {
                             currentFocus.unfocus();
                           }
                           print(textControllerT.text);
                           int topLevel =
                               int.tryParse(textControllerT.text) ?? 3;
-                      
+
                           led.child('devices').update({
                             'top_level': topLevel,
                           });
@@ -282,47 +273,46 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                         keyboardType: TextInputType.number,
                         controller: textControllerT,
                         decoration: InputDecoration(
-                          fillColor:  Color.fromARGB(255, 214, 246, 255),
-                          
-                          hintText: 'Water level',
-                          labelText:'Top Level' ,
-                          hintStyle: TextStyle(color: Color.fromARGB(255, 0, 0, 0))
-                        ),
-                        
+                            fillColor: Color.fromARGB(255, 214, 246, 255),
+                            hintText: 'Water level',
+                            labelText: 'Top Level',
+                            hintStyle:
+                                TextStyle(color: Color.fromARGB(255, 0, 0, 0))),
                       ),
                       SizedBox(
                         height: 10,
                         width: 10,
                       ),
                       TextField(
-                    onEditingComplete: () {
-                      FocusScopeNode currentFocus =
-                          FocusScope.of(context);
-              
-                      if (!currentFocus.hasPrimaryFocus) {
-                        currentFocus.unfocus();
-                      }
-                      print(textControllerB.text);
-                      int bottomLevel =
-                          int.tryParse(textControllerB.text) ?? 13;
-              
-                      led.child('devices').update({
-                        'bottom_level': bottomLevel,
-                      });
-                    },
-                    keyboardType: TextInputType.number,
-                    controller: textControllerB,
-                    decoration: InputDecoration(
-                      fillColor:  Color.fromARGB(255, 214, 246, 255),
-                      labelText:'Bottom Level' ,
-                      hintStyle: TextStyle(color: Color.fromARGB(170, 0, 0, 0)),
-                      hintText: ' Water Level',
-                    ),
+                        onEditingComplete: () {
+                          FocusScopeNode currentFocus = FocusScope.of(context);
+
+                          if (!currentFocus.hasPrimaryFocus) {
+                            currentFocus.unfocus();
+                          }
+                          print(textControllerB.text);
+                          int bottomLevel =
+                              int.tryParse(textControllerB.text) ?? 13;
+
+                          led.child('devices').update({
+                            'bottom_level': bottomLevel,
+                          });
+                        },
+                        keyboardType: TextInputType.number,
+                        controller: textControllerB,
+                        decoration: InputDecoration(
+                          fillColor: Color.fromARGB(255, 214, 246, 255),
+                          labelText: 'Bottom Level',
+                          hintStyle:
+                              TextStyle(color: Color.fromARGB(170, 0, 0, 0)),
+                          hintText: ' Water Level',
+                        ),
+                      ),
+                    ],
                   ),
-                  SizedBox(
-                        height: 60,
-                  ),
-                  TextButton(
+                ),
+              ),
+              TextButton(
                 onPressed: () {
                   openDialogue();
                 },
@@ -331,13 +321,7 @@ class _AnalyticsState extends State<Analytics> with TickerProviderStateMixin {
                     primary: Colors.white,
                     backgroundColor: ksecondarycolor,
                     textStyle: TextStyle(fontSize: 20)),
-              )
-                    ],
-                  ),
-                ),
               ),
-              
-              
             ],
           ),
         ],
@@ -373,7 +357,6 @@ class MyPainter extends CustomPainter {
       ..lineTo(0, size.height);
 
     canvas.drawPath(path, paint);
-    
   }
 
   @override
