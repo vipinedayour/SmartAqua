@@ -11,6 +11,6 @@ https://tinyurl.com/yx5fh2v2
 
 ## Maintainers
 1.Steena Xavier  https://github.com/SteenaXavier  
-2.Vipin E https://github.com/vipinedayour
-3.Swathi MS 
-4.Salmanual Faris KP
+2.Vipin E https://github.com/vipinedayour  
+3.Swathi MS  
+4.Salmanual Faris KP  
